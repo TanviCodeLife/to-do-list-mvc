@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MySql.Data.MySqlClient;
 
 namespace ToDoList.Models
 {
@@ -30,31 +31,43 @@ namespace ToDoList.Models
 
     public static List<Item> GetAll()
     {
-      List<Item> allItems = new List<Item> {};
-      MySqlConnection conn = DB.Connection();
-      conn.Open();
-      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT * FROM items;";
-      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
-      while(rdr.Read())
-      {
-        int itemId = rdr.GetInt32(0);
-        string itemDescription = rdr.GetString(1);
-        Item newItem = new Item(itemDescription, itemId);
-        allItems.Add(newItem);
-      }
-      conn.Close();
-      if (conn != null)
-      {
-        conn.Dispose();
-      }
+      Item dummyItem = new Item("dummy item");
+      List<Item> allItems = new List<Item> { dummy item };
+
+      // MySqlConnection conn = DB.Connection();
+      // conn.Open();
+      // MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      // cmd.CommandText = @"SELECT * FROM items;";
+      // MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+      // while(rdr.Read())
+      // {
+      //   int itemId = rdr.GetInt32(0);
+      //   string itemDescription = rdr.GetString(1);
+      //   Item newItem = new Item(itemDescription, itemId);
+      //   allItems.Add(newItem);
+      // }
+      // conn.Close();
+      // if (conn != null)
+      // {
+      //   conn.Dispose();
+      // }
       return allItems;
     }
 
-    // public static void ClearAll()
-    // {
-    //   _instances.Clear();
-    // }
+    public static void ClearAll()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"DELETE FROM items;";
+      cmd.ExecuteNonQuery();
+
+      conn.Close();
+     if (conn != null)
+     {
+      conn.Dispose();
+     }
+    }
 
     // public static Item Find(int searchId)
     // {
