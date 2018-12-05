@@ -87,5 +87,40 @@ namespace ToDoList.Models
       return _items;
     }
 
+    public override bool Equals(System.Object otherCategory)
+    {
+      if(!(otherCategory is Category))
+      {
+        return false;
+      }
+      else
+      {
+        Category newCategory = (Category) otherCategory;
+        bool nameEquality = this.GetName().Equals(newCategory.GetName());
+        return nameEquality;
+        //fail the Equals test by not adding the Equals method
+      }
+    }
+
+    public void Save()
+    {
+      //To fail the SavesCategoryToDatabase don't fill in the save.
+      MySqlConnection conn = DB.Connection();
+   conn.Open();
+   var cmd = conn.CreateCommand() as MySqlCommand;
+   cmd.CommandText = @"INSERT INTO categories (name) VALUES (@name);";
+   MySqlParameter name = new MySqlParameter();
+   name.ParameterName = "@name";
+   name.Value = this._name;
+   cmd.Parameters.Add(name);
+   cmd.ExecuteNonQuery();
+   conn.Close();
+   if (conn != null)
+   {
+     conn.Dispose();
+   }
+ }
+
+
   }
 }
