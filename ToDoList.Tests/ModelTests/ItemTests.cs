@@ -90,8 +90,8 @@ namespace ToDoList.Tests
       string description02 = "Wash the dishes";
       Item newItem1 = new Item(description01);
       Item newItem2 = new Item(description02);
-      newItem1.Save();
-      newItem2.Save();
+      newItem1.Save(); //Save needs to be added for test to pass
+      newItem2.Save(); //Save needs to be added for test to pass
       List<Item> newList = new List<Item> {newItem1, newItem2};
 
       //Act

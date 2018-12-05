@@ -37,6 +37,7 @@ namespace ToDoList.Models
         bool idEquality = (this.GetId() == newItem.GetId());
         bool descriptionEquality = (this.GetDescription() == newItem.GetDescription());
         return (idEquality && descriptionEquality);
+        //fail the Equals test by not adding the Equals method
       }
     }
 
