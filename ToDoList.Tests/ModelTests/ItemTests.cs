@@ -137,18 +137,35 @@ namespace ToDoList.Tests
 
 
     [TestMethod]
-  public void Find_ReturnsCorrectItemFromDatabase_Item()
-  {
-    //Arrange
-    Item testItem = new Item("Mow the lawn");
-    testItem.Save();
+    public void Find_ReturnsCorrectItemFromDatabase_Item()
+    {
+      //Arrange
+      Item testItem = new Item("Mow the lawn");
+      testItem.Save();
 
-    //Act
-    Item foundItem = Item.Find(testItem.GetId());
+      //Act
+      Item foundItem = Item.Find(testItem.GetId());
 
-    //Assert
-    Assert.AreEqual(testItem, foundItem);
-  }
+      //Assert
+      Assert.AreEqual(testItem, foundItem);
+    }
+
+    [TestMethod]
+    public void Edit_UpdatesItemInDatabase_String()
+    {
+      //Arrange
+      string firstDescription = "Walk the Dog";
+      Item testItem = new Item(firstDescription);
+      testItem.Save();
+      string secondDescription = "Mow the lawn";
+
+      //Act
+      testItem.Edit(secondDescription);
+      string result = Item.Find(testItem.GetId()).GetDescription();
+
+      //Assert
+      Assert.AreEqual(secondDescription, result);
+    }
 
   }
 }

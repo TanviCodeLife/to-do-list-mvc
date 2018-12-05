@@ -58,8 +58,8 @@ namespace ToDoList.Models
       MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
       while(rdr.Read())
       {
-        int itemId = rdr.GetInt32(1);
-        string itemDescription = rdr.GetString(0);
+        int itemId = rdr.GetInt32(0);
+        string itemDescription = rdr.GetString(1);
         // Line below now only provides one argument!
         Item newItem = new Item(itemDescription, itemId);
         allItems.Add(newItem);
@@ -88,10 +88,12 @@ namespace ToDoList.Models
       MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
       cmd.CommandText = @"INSERT INTO items (description) VALUES (@ItemDescription);";
       MySqlParameter description = new MySqlParameter();
-      description.ParameterName = "@ItemDescription";
-      description.Value = this._description;
-      cmd.Parameters.Add(description);
-      cmd.ExecuteNonQuery();    // This line is new!
+      // description.ParameterName = "@ItemDescription";
+      // description.Value = this._description;
+      // cmd.Parameters.Add(description);
+      //Add this command for above 3 lines of code
+      cmd.Parameters.AddWithValue("@ItemDescription", this._description);
+      cmd.ExecuteNonQuery();
       _id = (int) cmd.LastInsertedId;
       // One more line of logic will go here in the next lesson.
 
@@ -124,19 +126,20 @@ namespace ToDoList.Models
 
       MySqlConnection conn = DB.Connection();
       conn.Open();
-      var cmd = conn.CreateCommand() as MySqlCommand;
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
       cmd.CommandText = @"SELECT * FROM `items` WHERE id = @thisId;";
       MySqlParameter thisId = new MySqlParameter();
-      thisId.ParameterName = "@thisId";
-      thisId.Value = id;
-      cmd.Parameters.Add(thisId);
+      // thisId.ParameterName = "@thisId";
+      // thisId.Value = id;
+      // cmd.Parameters.Add(thisId);
+      cmd.Parameters.AddWithValue("@thisId", id);
       MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
       int itemId = 0;
       string itemDescription = "";
       while (rdr.Read())
       {
-        itemId = rdr.GetInt32(1);
-        itemDescription = rdr.GetString(0);
+        itemId = rdr.GetInt32(0);
+        itemDescription = rdr.GetString(1);
       }
        Item foundItem = new Item(itemDescription, itemId);
 
@@ -154,9 +157,30 @@ namespace ToDoList.Models
 
     public int GetId()
     {
-      // Temporarily returning dummy id to get beyond compiler errors, until we refactor to work with database.
       return _id;
       //To fail GetId - add return 0; and comment out the private id property and id prperty in the item constructor.
+    }
+
+    public void Edit(string newDescription)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"UPDATE items SET description = @newDescription WHERE id = @searchId;"
+      MySqlParameter searchId = new MySqlParameter();
+      cmd.Parameters.AddWithValue("searchId", this._id);
+      MySqlParameter description = new MySqlParameter();
+      cmd.Parameters.AddWithValue("@newDescription", description);
+      cmd.ExecuteNonQuery();
+      _description = newDescription;
+
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+
+      //To fail create empty Edit method and write tests
     }
   }
 }
