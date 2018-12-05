@@ -179,19 +179,27 @@ namespace ToDoList.Models
       }
       //To fail Saves to database method - declare method and keep it empty
       //To fail Save AssignsId test -
-      //do not add the "_id = (int) cmd.LastInsertedId;" line 
+      //do not add the "_id = (int) cmd.LastInsertedId;" line
     }
 
     public void Edit(string newDescription)
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();
-      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      var cmd = conn.CreateCommand() as MySqlCommand;
       cmd.CommandText = @"UPDATE items SET description = @newDescription WHERE id = @searchId;";
+      // MySqlParameter searchId = new MySqlParameter();
+      // searchId.ParameterName = "@searchId";
+      // searchId.Value = _id;
+      // cmd.Parameters.Add(searchId);
+      // MySqlParameter description = new MySqlParameter();
+      // description.ParameterName = "@newDescription";
+      // description.Value = newDescription;
+      // cmd.Parameters.Add(description);
       MySqlParameter searchId = new MySqlParameter();
-      cmd.Parameters.AddWithValue("searchId", this._id);
+      cmd.Parameters.AddWithValue("@searchId", this._id);
       MySqlParameter description = new MySqlParameter();
-      cmd.Parameters.AddWithValue("@newDescription", description);
+      cmd.Parameters.AddWithValue("@newDescription", newDescription);
       cmd.ExecuteNonQuery();
       _description = newDescription;
 

@@ -1,8 +1,7 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "/Users/Tanvi/.dotnet/store/|arch|/|tfm|",
-      "/Users/Tanvi/.nuget/packages"
+      "/Users/Guest/.nuget/packages"
     ]
   }
 }

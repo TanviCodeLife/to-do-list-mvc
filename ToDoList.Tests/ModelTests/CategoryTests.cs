@@ -14,12 +14,17 @@ namespace ToDoList.Tests
       Category.ClearAll();
     }
 
-    [TestMethod]
-    public void CategoryConstructor_CreatesInstanceOfCategory_Category()
+    public CategoryTest()
     {
-      Category newCategory = new Category("test category");
-      Assert.AreEqual(typeof(Category), newCategory.GetType());
+      DBConfiguration.ConnectionString = "server=localhost;user id=root;password=root;port=8889;database=to_do_list_test;";
     }
+
+  [TestMethod]
+  public void CategoryConstructor_CreatesInstanceOfCategory_Category()
+  {
+    Category newCategory = new Category("test category");
+    Assert.AreEqual(typeof(Category), newCategory.GetType());
+  }
 
     [TestMethod]
     public void GetName_ReturnsName_String()
