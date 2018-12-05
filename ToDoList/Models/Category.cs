@@ -47,7 +47,7 @@ namespace ToDoList.Models
       {
         conn.Dispose();
       }
-      return allCategories;
+
     }
 
     public static List<Category> GetAll()
@@ -65,7 +65,11 @@ namespace ToDoList.Models
         Category newCategory = new Category(CategoryName);
       }
       conn.Close();
-
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+      return allCategories;
       //To fail Get All Empty List method use this code
       // Category dummyCategory = new Category("dummy category");
       // List<Category> allCategorys = new List<Category> { dummyCategory };
