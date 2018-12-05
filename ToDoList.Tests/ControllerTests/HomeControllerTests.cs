@@ -28,7 +28,7 @@ namespace ToDoList.Tests
       {
         //Arrange
         HomeController controller = new HomeController();
-        var indexView = controller.Index() as ViewResult;
+        ViewResult indexView = controller.Index() as ViewResult;
         //Act
         var result = indexView.ViewData.Model;
         //Assert
