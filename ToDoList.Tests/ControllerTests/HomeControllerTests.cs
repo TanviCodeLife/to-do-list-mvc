@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using ToDoList.Controllers;
 using ToDoList.Models;
+using System;
 
 namespace ToDoList.Tests
 {
@@ -15,23 +16,21 @@ namespace ToDoList.Tests
       {
         //Arrange
         HomeController controller = new HomeController();
-
         //Act
-        ActionResult indexView = controller.Index();
-
+        var indexView = controller.Index();
         //Assert
         Assert.IsInstanceOfType(indexView, typeof(ViewResult));
+        Console.WriteLine(typeof(ViewResult));
       }
 
       [TestMethod]
-      public void Index_HasCorrectModelType_ItemList()
+      public void Index_HasCorrectedModelType_ItemList()
       {
         //Arrange
-        ViewResult indexView = new HomeController().Index() as ViewResult;
-
+        HomeController controller = new HomeController();
+        var indexView = controller.Index() as ViewResult;
         //Act
         var result = indexView.ViewData.Model;
-
         //Assert
         Assert.IsInstanceOfType(result, typeof(List<Item>));
       }
