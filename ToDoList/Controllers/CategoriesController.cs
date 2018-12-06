@@ -24,7 +24,9 @@ namespace ToDoList.Controllers
     [HttpPost("/categories")]
     public ActionResult Create(string categoryName)
     {
+
       Category newCategory = new Category(categoryName);
+      newCategory.Save();
       List<Category> allCategories = Category.GetAll();
       return View("Index", allCategories);
     }

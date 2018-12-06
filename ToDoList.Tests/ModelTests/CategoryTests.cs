@@ -40,37 +40,6 @@ namespace ToDoList.Tests
       //Assert
       Assert.AreEqual(name, result);
     }
-    //
-    // [TestMethod]
-    // public void GetId_ReturnsCategoryId_Int()
-    // {
-    //   //Arrange
-    //   string name = "Test Category";
-    //   Category newCategory = new Category(name);
-    //
-    //   //Act
-    //   int result = newCategory.GetId();
-    //
-    //   //Assert
-    //   Assert.AreEqual(1, result);
-    // }
-    //
-
-    //
-    // [TestMethod]
-    // public void GetItems_ReturnsEmptyItemList_ItemList()
-    // {
-    //   //Arrange
-    //   string name = "Work";
-    //   Category newCategory = new Category(name);
-    //   List<Item> newList = new List<Item> { };
-    //
-    //   //Act
-    //   List<Item> result = newCategory.GetItems();
-    //
-    //   //Assert
-    //   CollectionAssert.AreEqual(newList, result);
-    // }
 
     [TestMethod]
     public void GetItems_RetrievesAllItemsWithCategory_ItemList()
