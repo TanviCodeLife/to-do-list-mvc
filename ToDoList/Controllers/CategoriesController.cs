@@ -28,7 +28,8 @@ namespace ToDoList.Controllers
       Category newCategory = new Category(categoryName);
       newCategory.Save();
       List<Category> allCategories = Category.GetAll();
-      return View("Index", allCategories);
+      //return View("Index", allCategories); //Can use redirect to action
+      return RedirectToAction("Index");
     }
 
     [HttpGet("/categories/{id}")]
@@ -53,7 +54,7 @@ namespace ToDoList.Controllers
       List<Item> categoryItems = foundCategory.GetItems();
       model.Add("items", categoryItems);
       model.Add("category", foundCategory);
-      return View("Show", model);
+      return View("Show", model); //Use RedirectToAction instead of View
     }
 
   }
