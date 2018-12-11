@@ -28,8 +28,9 @@ namespace ToDoList.Controllers
       Category newCategory = new Category(categoryName);
       newCategory.Save();
       List<Category> allCategories = Category.GetAll();
-      //return View("Index", allCategories); //Can use redirect to action
       return RedirectToAction("Index");
+      //return View("Index", allCategories); 
+      //Can use redirect to action
     }
 
     [HttpGet("/categories/{id}")]
@@ -38,23 +39,20 @@ namespace ToDoList.Controllers
       Dictionary<string, object> model = new Dictionary<string, object>();
       Category selectedCategory = Category.Find(id);
       List<Item> categoryItems = selectedCategory.GetItems();
+      List<Item> allItems = Item.GetAll();
       model.Add("category", selectedCategory);
-      model.Add("items", categoryItems);
+      model.Add("categoryItems", categoryItems);
+      model.Add("allItems", allItems);
       return View(model);
     }
 
-    // This one creates new Items within a given Category, not new Categories:
-    [HttpPost("/categories/{categoryId}/items")]
-    public ActionResult Create(int categoryId, string itemDescription)
+    [HttpPost("/categories/{categoryId}/items/new")]
+    public ActionResult AddItem(int categoryId, int itemId)
     {
-      Dictionary<string, object> model = new Dictionary<string, object>();
-      Category foundCategory = Category.Find(categoryId);
-      Item newItem = new Item(itemDescription, categoryId);
-      newItem.Save();
-      List<Item> categoryItems = foundCategory.GetItems();
-      model.Add("items", categoryItems);
-      model.Add("category", foundCategory);
-      return View("Show", model); //Use RedirectToAction instead of View
+      Category category = Category.Find(categoryId);
+      Item item = Item.Find(itemId);
+      category.AddItem(item);
+      return RedirectToAction("Show",  new { id = categoryId });
     }
 
   }
